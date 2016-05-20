@@ -1,0 +1,43 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    encoders:
+            AppBundle\Entity\Admin:
+                algorithm: plaintext
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory:
+            memory: ~
+        our_db_provider:
+                    entity:
+                        class: AppBundle:Admin
+                        property: username
+
+    firewalls:
+        # Development ortamı için olan kısıtlamaları engeller ki test ve logları görebilelim diye
+        dev: # firewall-1
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+
+        main: #firewall-2
+            anonymous: ~
+            form_login:
+                login_path: login # Bu yazım şekli sayesinde security component, bizim login işlemi yapacağımızın işaretini veriyor ve bizi /login e yönlendiriyor
+                check_path: login # Burasıda submit tuşuna basıldıktan sonra login kontrol işlemlerinin /login de yapılcağını biliyor ve oraya gidiyor. orada da userAutenticationProvider.php yi(listener) tetikleniyor
+            provider: our_db_provider # Burası sayesinde /login e giden sistem, user ı AppBundle:Admin entity içinde aranacağını belirtiyor. Yukarda providers da tanımladık
+                #default_target_path: default_security_target # Eğer bu parametre kullanılırsa, bizi direkt olarak alır ve routing.yml de ki default_security_target olan yere yönlendirir. Bu olmazsa eğer kullanıcı nereye ilk olarak tıkladı ise onu session içine alır ve oraya redirect eder
+                #always_use_default_target_path: true # Eğer bu parametre true olursa, hiç bir zaman session bakmaz ve daima alıp default a yönlendirir
+                #failure_path: login_failure # Eğer bu parametre kullanılırsa, o zaman routing.yml de belirtilen login_failure path ine gider.
+                #csrf_token_generator: security.csrf.token_manager # Bu paramtre sayesinde Cross Side Request Forgery(Sahtekarlık) önlenir. login.html.twig de hidden input içerisine bu token eklenmelidir.
+    access_control: # Access_control security.token_storage a bakıyor ve role kontrolü yapıyor. Eğer roller belirtilenler ile uyuşmuyorsa otomatik olarak firewall da ki /login e yönlendiriyor. Eğer uyuşuyorsa bu seferde path role ile token_storage rolü uyumlumu nakıyor. Değilse AccessDeniedException fırlatıyor.
+            - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Bu kısım çok önemli. Eğer bu şekilde olmazsa kesinlikle loop a girer
+            - { path: ^/admin, roles: ROLE_ADMIN }
+            - { path: ^/, roles: ROLE_USER, ips: [127.0.0.1, ::1] }
+            - { path: ^/, roles: ROLE_NO_ACCESS } # Bunun sayesinde eğer user ın ip si belirtilen ip ile uyuyşmazsa, bir alta inmek zorunda kalıyor ve orada da role uymadığı için AccesDeniedException atmasını sağlıyor.
+
+    role_hierarchy:
+            ROLE_ADMIN:      [ROLE_ORGANIZER, ROLE_USER]
+            ROLE_SUPERADMIN: [ROLE_ADMIN]

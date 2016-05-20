@@ -1,0 +1,47 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+    <div class="container-fluid" style="margin-top: 150px;">
+
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+
+
+
+        <div class="col-lg-4 col-md-3 col-sm-2">
+
+            {% if error %}
+                <div>Hatalı Giriş!</div>
+            {% endif %}
+
+            <div class="panel panel-warning">
+                <div class="panel-heading">Giriş</div>
+                <div class="panel-body">
+                    <form method="post" action="{{ path('login') }}">
+
+                        {#<input type="hidden" name="_target_path" value="account" /> Bunu kullanarak ta redirect ettirebiliriz#}
+                        {#<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" /> Bunu kullanarak csrf token ID üretilir ve securtiy.yml de login_path altında kontrolü yapılır#}
+
+                        <div class="form-group">
+                            <input type="text" name="_username" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" name="_password" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit_login" value="Giriş" class="form-control btn btn-success" />
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+
+    </div>
+
+{% endblock %}

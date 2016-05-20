@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="indexApp">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Symfony Denemeleri{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset("Assets/css/bootstrap-theme.css/") }}" />
+        <link rel="stylesheet" href="{{ asset("Assets/css/bootstrap.css/") }}" />
+        <link rel="stylesheet" href="{{ asset("Assets/css/bootstrap.min.css/") }}" />
+        <link rel="stylesheet" href="{{ asset("Assets/css/index.css/") }}" />
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body ng-controller="indexController">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Menü</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Taner Symfony</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ path("homepage") }}">Operasyon</a></li>
+                    <li><a href="{{ path("login") }}">Giriş</a></li>
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+
+
+
+
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        <script src="{{ asset("Assets/js/bootstrap.js") }}"></script>
+        <script src="{{ asset("Assets/js/common.js") }}"></script>
+        <script src="{{ asset("Assets/js/index_angular.js") }}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    </body>
+
+</html>

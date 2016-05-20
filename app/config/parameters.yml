@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: tez
+    database_user: root
+    database_password: root
+    mailer_transport: gmail
+    #mailer_host: gmail
+    mailer_user: tbm.akdemir@gmail.com
+    mailer_password: geceprensi
+    secret: cd118675a8dd167c80a1e97532a11edc50b3bc22
